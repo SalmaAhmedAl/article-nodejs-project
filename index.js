@@ -1,12 +1,33 @@
 const express = require("express");
+const mongoose = require('mongoose');
+require('dotenv').config();
+const Article = require('./models/Article'); // Import the Article model.
 
 const app = express();
+
+const userName = process.env.USER_NAME;
+const password = process.env.PASSWORD;
+
+const uri = `mongodb+srv://${userName}:${password}@nodejscluster.fies2xa.mongodb.net/?retryWrites=true&w=majority`;
+
+mongoose.connect(uri)
+.then(() => console.log('Connected to MongoDB'))
+.catch(err => console.log("Error in connecting with th DB ",err));
+
 app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("Hello, NodeJs users!");
 });
 
+//Prams and Query
+app.get("/sayHelloTo", (req, res) => {
+    const name = req.body.name;
+    console.log(req.body);
+    res.send(
+      `Hello, ${name}. Your name has ${name.length} letters. And your Age should be ${req.query.age} years old.`
+    );
+  });
 
 //Server side rendered pages
 app.get("/hello", (req, res) => {
@@ -15,13 +36,7 @@ app.get("/hello", (req, res) => {
 
 app.get("/welcome", (req, res) => {
     res.render("welcome.ejs", { name: req.query.name , age: req.query.age});
-  });
-
-
-app.post("/addComment", (req, res) => {
-  res.send("POST on addComment");
 });
-
 
 //Client side rendered pages
 app.get("/findSummation/:n/:m", (req, res) => {
@@ -34,14 +49,34 @@ app.get("/findSummation/:n/:m", (req, res) => {
   res.json({ num1: n, num2: m, total: total });
 });
 
-app.get("/sayHelloTo", (req, res) => {
-  const name = req.body.name;
-  console.log(req.body);
-  res.send(
-    `Hello, ${name}. Your name has ${name.length} letters. And your Age should be ${req.query.age} years old.`
-  );
-});
 
+//CRUD Operations on Articles entity
+//Create
+app.post("/articles", (req, res) => {
+    const article = new Article({
+        title: req.body.title,
+        body: req.body.body,
+        NumberOfLikes: req.body.NumberOfLikes,
+    });
+    article
+        .save()
+        .then((result) => {
+        console.log("New article added ",result);
+        res.json(result);
+        })
+        .catch((err) => console.log(err));
+    } );
+
+//Read with async/await
+app.get("/articles", async (req, res) => {
+    try{
+        const articles = await Article.find();
+        console.log("All articles ",articles);
+        res.render("articles.ejs", { articles: articles });
+    }catch(err){
+        console.log("Error when reading articles ", err);
+    }   
+} );
 
 
 app.listen(8000, () => {

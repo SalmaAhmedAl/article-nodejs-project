@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Articles</title>
+  </head>
+  
+  <body>
+    <h1 style="width: 100%; background-color: antiquewhite;">All Articles</h1>
+    <ul>
+      <% for (var i = 0; i < articles.length; i++) { %>
+       <li><b><%= articles[i].title %></b> </li>
+       <p>
+            <%= articles[i].body %> <br>
+           Number of likes: <%= articles[i].NumberOfLikes %>
+       </p>
+       <hr>
+      <% } %>
+  </body>
+</html>

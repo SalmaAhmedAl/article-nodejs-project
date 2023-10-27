@@ -78,6 +78,17 @@ app.get("/articles", async (req, res) => {
     }   
 } );
 
+//Delete
+app.delete("/articles/:id", (req, res) => {
+    const id = req.params.id;
+    Article.findByIdAndDelete(id)
+        .then((result) => {
+        console.log("Article deleted ",result);
+        res.json(result);
+        })
+        .catch((err) => console.log(`Error on deleting this article with id : ${id}`,err));
+    } );
+
 
 app.listen(8000, () => {
   console.log("I'm listening in port 8000");

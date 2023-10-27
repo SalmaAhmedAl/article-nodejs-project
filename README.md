@@ -56,6 +56,7 @@ The project structure is organized as follows:
 - views/              // Contains EJS templates for rendering HTML pages
 - app.js              // Entry point of the application, sets up the server
 ```
+![Articles](./snapshoots/articles.jpg)
 
 ## Acknowledgements
 

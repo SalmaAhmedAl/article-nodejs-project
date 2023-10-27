@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
   res.send("Hello, NodeJs users!");
 });
 
-//Prams and Query
+//Read Prams and Query
 app.get("/sayHelloTo", (req, res) => {
     const name = req.body.name;
     console.log(req.body);
@@ -50,7 +50,7 @@ app.get("/findSummation/:n/:m", (req, res) => {
 });
 
 
-//CRUD Operations on Articles entity
+//CRUD Operations on Article entity
 //Create
 app.post("/articles", (req, res) => {
     const article = new Article({

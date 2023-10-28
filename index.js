@@ -74,7 +74,7 @@ app.get("/articles", async (req, res) => {
         console.log("All articles ",articles);
         res.render("articles.ejs", { articles: articles });
     }catch(err){
-        console.log("Error when reading articles ", err);
+        console.log("Error when reading articles", err);
     }   
 } );
 
